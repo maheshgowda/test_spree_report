@@ -1,6 +1,9 @@
 Spree::Admin::ReportsController.class_eval do
   before_filter :spree_reports_setup, only: [:index]
-
+  require "spree_report/reports/base"
+  require "spree_report/reports/orders_by_period"
+  require "spree_report/reports/sold_products"
+ 
   def orders_by_period
     @report = SpreeReports::Reports::OrdersByPeriod.new(params)
     respond_to do |format|

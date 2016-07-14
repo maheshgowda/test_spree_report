@@ -2,9 +2,9 @@ require 'spree_core'
 require 'spree_report/engine'
 require "chartkick"
 require "groupdate"
-require "report/base"
-require "report/orders_by_period"
-require "report/sold_products"
+require "spree_report/reports/base"
+require "spree_report/reports/orders_by_period"
+require "spree_report/reports/sold_products"
 
 module SpreeReports
   
