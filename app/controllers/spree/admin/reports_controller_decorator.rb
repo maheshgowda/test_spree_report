@@ -2,7 +2,7 @@ Spree::Admin::ReportsController.class_eval do
   before_filter :spree_reports_setup, only: [:index]
 
   def orders_by_period
-    @report = SpreeReports::OrdersByPeriod.new(params)
+    @report = SpreeReports::Reports::OrdersByPeriod.new(params)
     respond_to do |format|
       format.html
       format.csv {
@@ -13,7 +13,7 @@ Spree::Admin::ReportsController.class_eval do
   end
   
   def sold_products
-    @report = SpreeReports::SoldProducts.new(params)
+    @report = SpreeReports::Reports::SoldProducts.new(params)
     respond_to do |format|
       format.html
       format.csv {
