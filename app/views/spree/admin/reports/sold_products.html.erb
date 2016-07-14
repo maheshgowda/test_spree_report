@@ -1,0 +1,86 @@
+<%= stylesheet_link_tag 'spree_reports/spree_reports', media: 'all' %>
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+<%=  %>
+
+<div class="spree_reports report">
+  
+  <h1>Sold Products</h1>
+  
+  <div class="options">
+    
+    <%= form_tag "", method: :get, class: "options" do %>
+
+      <span class="option">
+        <span title="<%= @report.date_start ? "date_start: #{l(@report.date_start.to_date)}" : "" %>">months:</span>
+        <%= select_tag "months", options_for_select(SpreeReports.report_months, selected: @report.months) %>
+      </span>
+        
+      <% if @report.currencies.size > 1 %>
+        <span class="option">
+          currency:
+          <%= select_tag "currency", options_for_select(@report.currencies, selected: @report.currency) %>
+        </span>
+      <% end %>
+  
+      <% if @report.stores.size > 2 %>
+        <span class="option">
+          store:
+          <%= select_tag "store", options_for_select(@report.stores, selected: @report.store) %>
+        </span>
+      <% end %>
+  
+      <%= submit_tag 'reload' %>
+  
+    <% end %>
+    
+  </div>
+  
+  <div class="table">
+    
+    <table class="data" border="1">
+      <tr>
+        <th>Pos</th>
+        <th>Variant ID</th>
+        <th>Product Variant Name</th>
+        <th>Quantity</th>
+      </tr>
+  
+      <% @report.data.each_with_index do |item, index| %>
+        <tr>
+          <td><%= index+1 %></td>
+          <td><%= item[:variant_id] %></td>
+          <td>
+            <%= link_to item[:variant_name], product_path(item[:variant_slug]), class: item[:variant_available_on] > Time.now ? "red" : "" %>
+            <%= link_to "edit", admin_product_path(item[:variant_slug]) %>
+          </td>
+          <td><%= number_with_delimiter(item[:quantity]) %></td>
+        </tr>
+      <% end %>
+  
+    </table>
+  
+  </div>
+  
+  <div class="charts">
+     
+     <h2>Top 20 Products</h2>
+     <div class="chart">
+       <%= column_chart Hash[@report.data.first(20).collect { |i| [i[:variant_name], i[:quantity]] }] %>
+     </div>
+     
+     <h2>Flop 20 Products</h2>
+     <div class="chart">
+       <%= column_chart Hash[@report.data.reverse.first(20).collect { |i| [i[:variant_name], i[:quantity]] }] %>
+     </div>
+  
+  </div>
+  
+  <div class="permalink">
+    <h2>Permalink</h2>
+    <input id="spree_reports_permalink" type="text" value="<%= request.url.split('?').first + "?" + params.except(:utf8, :commit, :action, :controller).to_query %>" onclick="$(this).select();return;">
+    <% if SpreeReports.csv_export %>
+      <%= link_to 'Download as CSV', params.except(:utf8, :commit).merge(format: "csv") %>
+    <% end %>
+  </div>
+  
+</div>
