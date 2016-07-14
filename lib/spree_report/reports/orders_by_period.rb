@@ -78,7 +78,7 @@ module SpreeReports
         if @group_by == :year
           @sales = @sales.group_by_year(date_column, time_zone: SpreeReports.time_zone)
         elsif @group_by == :month
-          @sales = @sales.group_by_month(date_column, time_zone: SpreeReports.time_zone)
+          #@sales = @sales.group_by_month(date_column, time_zone: SpreeReports.time_zone)
         elsif @group_by == :week
           # %W => week start: monday, %U => week start: sunday
           @sales = @sales.group_by_week(date_column, time_zone: SpreeReports.time_zone)
