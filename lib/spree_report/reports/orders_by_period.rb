@@ -1,6 +1,6 @@
 module SpreeReports
   module Reports
-    class OrdersByPeriod < SpreeReports::Report::Base
+    class OrdersByPeriod < SpreeReports::Reports::Base
       
       attr_accessor :params, :data
       attr_accessor :currencies, :currency, :stores, :store, :group_by_list, :group_by, :states, :state, :months, :date_start
