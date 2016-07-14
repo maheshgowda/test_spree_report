@@ -3,7 +3,9 @@ Spree::Admin::ReportsController.class_eval do
   require "spree_report/reports/base"
   require "spree_report/reports/orders_by_period"
   require "spree_report/reports/sold_products"
- 
+  require "chartkick"
+  require "groupdate" 
+  
   def orders_by_period
     @report = SpreeReports::Reports::OrdersByPeriod.new(params)
     respond_to do |format|
